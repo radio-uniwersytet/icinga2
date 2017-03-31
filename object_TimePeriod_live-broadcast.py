@@ -64,23 +64,21 @@ for show in sheet_csv:
 
 # creating TimePeriod definition for icinga
 data = {
-    "disabled": False,
     "display_name": "live-broadcast",
     "imports": [ "generic-time-period"],
     "object_name": "live-broadcast",
     "object_type": "object",
     "ranges": ranges,
-    "update_method": "LegacyTimePeriod",
-    "zone": None
+    "update_method": "LegacyTimePeriod"
 }
 
 # sending settings to icinga via API
 headers = {'Accept': 'application/json'}
-target = {'Name': 'live-broadcast'}
+target = {'name': 'live-broadcast'}
 url = 'http://icinga2.radiouniwersytet.pl/icingaweb2/director'
 
 # uploading new timeperiod
-response = requests.post(url+'/timeperiods',headers=headers,params=target,data=data)
+response = requests.put(url+'/timeperiod',headers=headers,params=target,data=json.dumps(data))
 print(response.text)
 
 # triggering deploy
